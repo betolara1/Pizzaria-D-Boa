@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block 'cabecalho' %}
+    <link href="{% static 'homepage/css/homepage.css' %}" rel="stylesheet">
+    <link href="{% static 'usuarios/css/cadastro.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block 'conteudo' %}
+<div class="container">
+    <h1>Cadastro</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <section class='alert {{message.tags}}'>
+                {{message}}
+            </section>
+        {% endfor %}
+    {% endif %}
+                    
+    <form action="{% url "cadastro" %}" method="POST">{% csrf_token %}
+        <label>Username</label>
+        <input type="text" class="input-form" name="username" id="">
+        <br>
+        <br>
+        <label>Senha</label>
+        <input type="password" class="input-form" name="senha" id="">
+        <br>
+        <br>
+        <label>Confirmar senha</label>
+        <input type="password" class="input-form" name="confirmar_senha" id="">
+        <br>
+        <br>
+        <label>E-mail</label>
+        <input type="text" class="input-form" name="email" id="">
+        <br>
+        <br>
+        <input type="submit" value="Cadastrar" class="btn-cadastro">
+        <a href="{% url 'login' %}" class='btn-cadastro'>Voltar</a>
+        <br>
+        <br>
+        <br>
+        <br>
+    </form>
+</div>
+
+    
+{% endblock 'conteudo' %}

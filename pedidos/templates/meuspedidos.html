@@ -1,0 +1,63 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block 'cabecalho' %}
+    <link href="{% static 'homepage/css/homepage.css' %}" rel="stylesheet">
+    <link href="{% static 'pedidos/css/pedido.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block 'conteudo' %}
+<div class="container">
+    <h1>Meus Pedidos</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <section class='alert {{message.tags}}'>
+                {{message}}
+            </section>
+        {% endfor %}
+    {% endif %}
+
+    <br>
+    <div class="card card-view">
+        <table>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Tamanho</th>
+                <th scope="col">Obs</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Status</th>
+
+            </tr>
+
+            {% for pe in pedido %}
+                <tr class="linha-tabela">
+                    <td>{{pe.nome}}</td>
+                    <td>{{pe.get_tamanho_display}}</td>
+                    <td>{{pe.observacao}}</td>
+                    <td>R$ {{pe.preco}}0</td>
+                    <td>{{pe.get_status_display}}</td>
+
+                    <td>
+                        <form action="{% url "excluirpedido" pe.id %}" method="POST">{% csrf_token %}
+                                {% if pe.status == '1' %}
+                                    <input type="submit" class="btn btn-danger" name="excluirpedido" value="Excluir Pedido">
+                                {% elif pe.status == '2' %}
+                                    <input type="submit" class="btn btn-danger" name="excluirpedido" value="Pedido em processo" disabled>
+                                {% else %}
+                                    <input type="submit" class="btn btn-danger" name="excluirpedido" value="Pedido Pronto" disabled>
+                                {% endif %}
+                            
+                        </form>
+                    
+                    </td>
+                </tr>
+            {% endfor %}
+          </table>
+        
+    </div>
+
+</div>
+
+    
+{% endblock 'conteudo' %}

@@ -1,0 +1,100 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block 'cabecalho' %}
+    <link href="{% static 'homepage/css/homepage.css' %}" rel="stylesheet">
+    <link href="{% static 'pedidos/css/pedido.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function validarCheckboxes(event) {
+            // Previne o envio do formulário
+            event.preventDefault();
+
+            // Obtém todos os checkboxes com o nome 'sabores'
+            const checkboxes = document.querySelectorAll('input[name="sabores"]');
+            let checked = false;
+
+            // Verifica se pelo menos um checkbox está selecionado
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    checked = true;
+                }
+            });
+
+            if (!checked) {
+                // Exibe uma mensagem de alerta se nenhum checkbox estiver selecionado
+                alert("Pelo menos um sabor deve ser selecionado.");
+            } else {
+                // Se pelo menos um checkbox estiver selecionado, envia o formulário
+                document.getElementById('formulario').submit();
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block 'conteudo' %}
+<div class="container">
+    <h1>Pedido</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <section class='alert {{message.tags}}'>
+                {{message}}
+            </section>
+        {% endfor %}
+    {% endif %}
+
+    <br>
+    <form id="formulario" action="{% url "fecharpedido" %}" method="POST" onsubmit="validarCheckboxes(event)">
+        {% csrf_token %}
+    
+        <label>Nome:</label>
+        <label name="nome" id="nome">{{ user.username }}</label>
+        <br>
+        <br>
+        <br>
+
+        <label for="">Escolha o Tamanho: </label>
+        <select name="tamanho" class="input-form" id="tamanho" required>
+            {% for t in tamanho %}
+                {% if t %}
+                    <option value='{{t.0}}'> {{t.1}} </option>
+                {% endif %}
+            {% endfor %}
+        </select>
+
+        <br>
+        <br>
+    
+        <label>Escolha os sabores</label>
+        <br>
+
+        {% for s in sabores %}
+            <input type="checkbox" value="{{ s.id }}" name="sabores" id="{{ s.id }}">
+            <label for="{{ s.id }}">{{ s.nome }}</label>
+            <br>
+        {% endfor %}
+
+        <br>
+        <br>
+        <br>
+        
+        <label for="comment">Observação:</label><br>
+        <textarea id="observacao" name="observacao" rows="4" cols="50"></textarea><br>
+        
+        <br>
+        <br>
+        <br>
+
+        <label>Entrega? Será cobrado um valor de R$ 7,00</label>
+        <input type="checkbox" value="Sim" name="entregasim" id="entregasim">
+        <br>
+        <br>
+        <br>
+
+        <input type="submit" value="Fechar Pedido" class="btn-cadastro">
+    </form>
+</div>
+
+{% endblock 'conteudo' %}
+

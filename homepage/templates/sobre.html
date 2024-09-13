@@ -1,0 +1,24 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block 'cabecalho' %}
+    <link href="{% static 'homepage/css/sobre.css' %}" rel="stylesheet">
+    <link href="{% static 'homepage/css/homepage.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block 'conteudo' %}
+<header>
+    <h1>Sobre Nós</h1>
+</header>
+
+<div class="container">
+    <section id="descricao">
+        <h2>Quem somos</h2>
+        {% for s in sobre %}
+        <br>
+            <p>{{s.descricao}}</p>
+        {% endfor %}
+        
+    </section>
+</div>
+{% endblock 'conteudo' %}
