@@ -27,7 +27,6 @@ Pizzaria-D-Boa/
 ├── requirements.txt  # Dependências
 └── db.sqlite3       # Banco de dados
 
-```plaintext
 
 ## ⚙️ Pré-requisitos
 
