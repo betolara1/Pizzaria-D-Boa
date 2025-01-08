@@ -26,7 +26,7 @@ Pizzaria-D-Boa/
 ├── manage.py         # Script Django
 ├── requirements.txt  # Dependências
 └── db.sqlite3       # Banco de dados
-
+```
 
 ## ⚙️ Pré-requisitos
 
